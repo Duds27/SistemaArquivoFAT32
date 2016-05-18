@@ -19,8 +19,9 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
-			<PackageImports>vcl.bpi;rtl.bpi;bcbie.bpi;vclx.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;dbrtl.bpi;vcldb.bpi;vcldbx.bpi;bdertl.bpi;dsnap.bpi;dsnapcon.bpi;TeeUI.bpi;TeeDB.bpi;Tee.bpi;adortl.bpi;vclib.bpi;ibxpress.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;inet.bpi;intrawebdb_100_120.bpi;Intraweb_100_120.bpi;vclie.bpi;websnap.bpi;webdsnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;soaprtl.bpi;vclribbon.bpi;DbxCommonDriver.bpi;DbxClientDriver.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;dbexpress.bpi;dbxcds.bpi;Lps_ComPort_Package_CB2009.bpi;fs12.bpi;frx12.bpi;frxcs12.bpi;fsDB12.bpi;frxDB12.bpi;fsBDE12.bpi;frxBDE12.bpi;fsADO12.bpi;frxADO12.bpi;fsIBX12.bpi;frxIBX12.bpi;frxDBX12.bpi;frxe12.bpi;fsTee12.bpi;frxTee12.bpi;CPortLibCB6.bpi;bcbofficexp.bpi</PackageImports>
 			<Multithreaded>true</Multithreaded>
+			<LinkPackageImports>rtl.bpi;vcl.bpi</LinkPackageImports>
+			<PackageImports>vcl.bpi;rtl.bpi;bcbie.bpi;vclx.bpi;vclactnband.bpi;xmlrtl.bpi;bcbsmp.bpi;dbrtl.bpi;vcldb.bpi;vcldbx.bpi;bdertl.bpi;dsnap.bpi;dsnapcon.bpi;TeeUI.bpi;TeeDB.bpi;Tee.bpi;adortl.bpi;vclib.bpi;ibxpress.bpi;IndyCore.bpi;IndySystem.bpi;IndyProtocols.bpi;inet.bpi;intrawebdb_100_120.bpi;Intraweb_100_120.bpi;vclie.bpi;websnap.bpi;webdsnap.bpi;inetdbbde.bpi;inetdbxpress.bpi;soaprtl.bpi;vclribbon.bpi;DbxCommonDriver.bpi;DbxClientDriver.bpi;DBXInterBaseDriver.bpi;DBXMySQLDriver.bpi;dbexpress.bpi;dbxcds.bpi;Lps_ComPort_Package_CB2009.bpi;fs12.bpi;frx12.bpi;frxcs12.bpi;fsDB12.bpi;frxDB12.bpi;fsBDE12.bpi;frxBDE12.bpi;fsADO12.bpi;frxADO12.bpi;fsIBX12.bpi;frxIBX12.bpi;frxDBX12.bpi;frxe12.bpi;fsTee12.bpi;frxTee12.bpi;CPortLibCB6.bpi;bcbofficexp.bpi</PackageImports>
 			<AllPackageLibs>rtl.lib;vcl.lib</AllPackageLibs>
 			<ProjectType>CppVCLApplication</ProjectType>
 			<DCC_CBuilderOutput>JPHNE</DCC_CBuilderOutput>
@@ -58,19 +59,24 @@
 			<TASM_Debugging>None</TASM_Debugging>
 		</PropertyGroup>
 		<ItemGroup>
-			<CppCompile Include="sistema_arquivos.cpp">
-				<BuildOrder>0</BuildOrder>
-			</CppCompile>
-			<ResFiles Include="sistema_arquivos.res">
-				<ModuleName>sistema_arquivos.res</ModuleName>
-				<BuildOrder>1</BuildOrder>
-			</ResFiles>
 			<CppCompile Include="untPrincipal.cpp">
 				<Form>Form1</Form>
 				<DependentOn>untPrincipal.h</DependentOn>
 				<BuildOrder>2</BuildOrder>
 			</CppCompile>
+			<ResFiles Include="sistema_arquivos.res">
+				<BuildOrder>1</BuildOrder>
+			</ResFiles>
+			<CppCompile Include="sistema_arquivos.cpp">
+				<BuildOrder>0</BuildOrder>
+			</CppCompile>
+			<CppCompile Include="untAutores.cpp">
+				<Form>frmAutores</Form>
+				<DependentOn>untAutores.h</DependentOn>
+				<BuildOrder>3</BuildOrder>
+			</CppCompile>
 			<FormResources Include="untPrincipal.dfm"/>
+			<FormResources Include="untAutores.dfm"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>

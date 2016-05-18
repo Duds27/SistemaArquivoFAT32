@@ -1,0 +1,94 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = 'Form1'
+  ClientHeight = 649
+  ClientWidth = 825
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  Menu = MainMenu1
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object GroupBox1: TGroupBox
+    Left = 189
+    Top = 522
+    Width = 636
+    Height = 105
+    TabOrder = 0
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 630
+    Width = 825
+    Height = 19
+    Panels = <
+      item
+        Width = 100
+      end
+      item
+        Alignment = taCenter
+        Text = 'Sistema de Arquivos'
+        Width = 600
+      end
+      item
+        Alignment = taRightJustify
+        Width = 100
+      end>
+  end
+  object GroupBox3: TGroupBox
+    Left = 189
+    Top = 75
+    Width = 636
+    Height = 35
+    TabOrder = 2
+    object Edit1: TEdit
+      Left = 5
+      Top = 8
+      Width = 622
+      Height = 21
+      TabOrder = 0
+      Text = 'Edit1'
+    end
+  end
+  object TreeView1: TTreeView
+    Left = 3
+    Top = 75
+    Width = 182
+    Height = 551
+    Indent = 19
+    TabOrder = 3
+  end
+  object StringGrid1: TStringGrid
+    Left = 189
+    Top = 120
+    Width = 634
+    Height = 401
+    TabOrder = 4
+  end
+  object MainMenu1: TMainMenu
+    Left = 24
+    Top = 8
+    object Arquivo1: TMenuItem
+      Caption = '&Arquivo'
+    end
+    object Editar1: TMenuItem
+      Caption = '&Editar'
+    end
+    object Exibir1: TMenuItem
+      Caption = 'E&xibir'
+    end
+    object Ferramentas1: TMenuItem
+      Caption = 'Fe&rramentas'
+    end
+  end
+  object Timer1: TTimer
+    OnTimer = Timer1Timer
+    Left = 784
+    Top = 8
+  end
+end
