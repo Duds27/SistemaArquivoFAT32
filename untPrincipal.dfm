@@ -148,36 +148,18 @@ object Form1: TForm1
     Top = 384
     Width = 75
     Height = 25
-    Caption = 'Button1'
+    Caption = 'gera Tree'
     TabOrder = 5
     OnClick = Button1Click
   end
   object Button2: TButton
-    Left = 432
-    Top = 344
+    Left = 736
+    Top = 272
     Width = 75
     Height = 25
-    Caption = 'Button2'
+    Caption = 'ler nodes'
     TabOrder = 6
     OnClick = Button2Click
-  end
-  object Button3: TButton
-    Left = 360
-    Top = 192
-    Width = 75
-    Height = 25
-    Caption = 'SET'
-    TabOrder = 7
-    OnClick = Button3Click
-  end
-  object Button4: TButton
-    Left = 552
-    Top = 160
-    Width = 75
-    Height = 25
-    Caption = 'MAP_PATH'
-    TabOrder = 8
-    OnClick = Button4Click
   end
   object MainMenu1: TMainMenu
     Left = 24
@@ -235,6 +217,7 @@ object Form1: TForm1
     Top = 72
     object Criardiretorio1: TMenuItem
       Caption = 'Criar diret'#243'rio'
+      OnClick = Criardiretorio1Click
     end
     object Criararquivo1: TMenuItem
       Caption = 'Criar arquivo'

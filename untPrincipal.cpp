@@ -13,6 +13,7 @@
 
 #include "untPrincipal.h"
 #include "untAutores.h"
+#include "untNomeDiretorio.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -23,7 +24,10 @@ using namespace std;
 
 //variáveis globais
 map<int, UnicodeString> MAP_QTD_NIVEL;
+map<int, TTreeNode*> MAP_NODE;
 map<int, UnicodeString> MAP_FILE;
+
+#define ROOT "root\\"
 
 
 //---------------------------------------------------------------------------
@@ -46,12 +50,7 @@ void __fastcall TForm1::Autores1Click(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::Button2Click(TObject *Sender)
-{
-//	TreeView2->Items->Add(TreeView2, "Facens");
-ShowMessage("skahsagsj");
-}
-//---------------------------------------------------------------------------
+
 
 void __fastcall TForm1::TreeView2MouseLeave(TObject *Sender)
 {
@@ -165,11 +164,11 @@ void __fastcall TForm1::exibirNode(TTreeNode *node, int count)
 		if (TreeView1->Items->Item[i]->HasChildren) {
 			stackNode.push(TreeView1->Items->Item[i]);
 			queueNode.push(TreeView1->Items->Item[i]);
-			MAP_QTD_NIVEL.insert (pair<int,UnicodeString>(i, TreeView1->Items->Item[i]->Text));
-			ShowMessage("ToString = " + TreeView1->Items->Item[i]->ToString());
-			//ShowMessage(TreeView1->Items->Item[i]->Text);
+			//MAP_NODE.insert (pair<int,TTreeNode*>(i, TreeView1->Items->Item[i]));
 		}
 	}
+
+   //	LerNodesTreeView();
 
 	ShowMessage("Pilha...");
 	while (!stackNode.empty()) {
@@ -276,15 +275,6 @@ void __fastcall TForm1::FormCreate(TObject *Sender)
 void __fastcall TForm1::StringGrid1MouseDown(TObject *Sender, TMouseButton Button,
 		  TShiftState Shift, int X, int Y)
 {
-	TPopupMenu *mnuContext = new TPopupMenu(this);
-	TMenuItem *mnuFileNew = new TMenuItem(this);
-	TMenuItem *mnuFileOpen = new TMenuItem(this);
-
-	mnuFileNew->Caption = L"New";
-	mnuContext->Items->Add(mnuFileNew);
-	mnuFileOpen->Caption = L"Open";
-	mnuContext->Items->Add(mnuFileOpen);
-
 	//Simula o evento do botão direito
 	if ( Button == mbRight ) {
 		//StringGrid1->PopupMenu = mnuContext;
@@ -292,13 +282,6 @@ void __fastcall TForm1::StringGrid1MouseDown(TObject *Sender, TMouseButton Butto
 	}
 }
 //---------------------------------------------------------------------------
-
-void __fastcall TForm1::mnuFileNewClick(TObject *Sender)
-{
-	ShowMessage("New");
-}
-//---------------------------------------------------------------------------
-
 
 void __fastcall TForm1::Criar1Click(TObject *Sender)
 {
@@ -309,68 +292,96 @@ void __fastcall TForm1::Criar1Click(TObject *Sender)
 void __fastcall TForm1::TreeView1MouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
 		  int X, int Y)
 {
-
-
 	//Simula o evento do botão direito
 	if ( Button == mbRight ) {
 		TreeView1->PopupMenu = PopupTreeView;
-
-		ShowMessage(TreeView1->Selected->Index);
-		ShowMessage(TreeView1->Selected->GetPrev()->Text);
-
-
 	}
 }
 //---------------------------------------------------------------------------
 
-
-void __fastcall TForm1::Button3Click(TObject *Sender)
+void __fastcall TForm1::Criardiretorio1Click(TObject *Sender)
 {
-	map<UnicodeString,UnicodeString> mymap;
-	set<int> myset;
-	set<int>::iterator it;
-	pair<set<int>::iterator,bool> ret;
+	FILE *tmp;
+	char nomeArquivo[PATH_MAX];
 
-	mymap.insert (pair<UnicodeString,UnicodeString>("1", "Correa"));
-	mymap.insert (pair<UnicodeString,UnicodeString>("0", "Eduardo"));
-	mymap.insert (pair<UnicodeString,UnicodeString>("3", "Encarnação"));
-	mymap.insert (pair<UnicodeString,UnicodeString>("0", "Eduardo"));
+	ShowMessage("Estou criando diretório...");
+	ShowMessage("Absolute Index = " + IntToStr(TreeView1->Selected->AbsoluteIndex));
 
+	frmNomeDiretorio->ShowModal();
 
-	map<UnicodeString,UnicodeString>::iterator iterator = mymap.begin();
-	for (iterator = mymap.begin(); iterator != mymap.end(); ++iterator) {
-		ShowMessage ("Key = " + iterator->first + " Value = " + iterator->second );
+	tmp = fopen ("nomeTemp.txt", "r");
+
+	if ( tmp != NULL) {
+		limparChar (nomeArquivo, PATH_MAX);
+		if ( fgets (nomeArquivo, PATH_MAX , tmp) != NULL) {
+			int index = TreeView1->Selected->AbsoluteIndex;
+			TreeView1->Items->AddChild(TreeView1->Items->Item[index], nomeArquivo);
+			GerarNodesTreeView();
+			GerarPathNodesTreeView(nomeArquivo);
+		}
 	}
 
+	fclose (tmp);
 
-  // set some initial values:
-  for (int i=1; i<=5; ++i) myset.insert(i*10);    // set: 10 20 30 40 50
+	if( remove( "nomeTemp.txt" ) != 0 )
+		ShowMessage("Erro ao deletar arquivo temporário.");
 
-  ret = myset.insert(20);               // no new element inserted
-
-  if (ret.second==false) it=ret.first;  // "it" now points to element 20
-
-  myset.insert (it,25);                 // max efficiency inserting
-  myset.insert (it,24);                 // max efficiency inserting
-  myset.insert (it,26);                 // no max efficiency inserting
-
-  int myints[]= {5,10,15};              // 10 already in set, not inserted
-  myset.insert (myints,myints+3);
-
-  ShowMessage("myset contains:");
-  for (it=myset.begin(); it!=myset.end(); ++it)
-	cout << ' ' << *it;
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TForm1::Button4Click(TObject *Sender)
+void __fastcall TForm1::GerarNodesTreeView()
 {
-	map<int, UnicodeString>::iterator it;
-	for (it = MAP_QTD_NIVEL.begin(); it != MAP_QTD_NIVEL.end(); ++it) {
+	for (int i = 0; i < TreeView1->Items->Count; i++) {
+		if (TreeView1->Items->Item[i]->HasChildren) {
+			MAP_NODE.insert (pair<int,TTreeNode*>(i, TreeView1->Items->Item[i]));
+		}
+	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::ExibirNodesTreeView()
+{
+	UnicodeString key, value;
+	map<int, TTreeNode*>::iterator it;
+	for (it = MAP_NODE.begin(); it != MAP_NODE.end(); ++it) {
 		int k = it->first;
-		ShowMessage ("Key = " + IntToStr(k));
-		ShowMessage ("Value = " + it->second);
+		key = IntToStr(k);
+		value = it->second->Text;
+		ShowMessage ("Key = " + key + "\nValue = " + value);
 	}
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::GerarPathNodesTreeView(UnicodeString nomeDiretorio)
+{
+	stack<UnicodeString> path;
+	TTreeNode *aux = TreeView1->Selected;
+	UnicodeString name = "";
+	path.push(nomeDiretorio);
+	path.push(aux->Text + "\\");
+
+	aux = aux->GetPrev();
+	while (aux->HasChildren) {
+		path.push(aux->Text + "\\");
+		aux = aux->GetPrev();
+	}
+	path.push(ROOT);
+
+	name = "";
+	while (!path.empty()) {
+		name += path.top();
+		path.pop();
+	}
+
+
+	ShowMessage("Path Completooo = " + name);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TForm1::Button2Click(TObject *Sender)
+{
+	GerarNodesTreeView();
+	ExibirNodesTreeView();
 }
 //---------------------------------------------------------------------------
 

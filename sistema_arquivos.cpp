@@ -6,6 +6,7 @@
 //---------------------------------------------------------------------------
 USEFORM("untAutores.cpp", frmAutores);
 USEFORM("untPrincipal.cpp", Form1);
+USEFORM("untNomeDiretorio.cpp", frmNomeDiretorio);
 //---------------------------------------------------------------------------
 WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
@@ -15,6 +16,7 @@ WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 		Application->MainFormOnTaskBar = true;
 		Application->CreateForm(__classid(TForm1), &Form1);
 		Application->CreateForm(__classid(TfrmAutores), &frmAutores);
+		Application->CreateForm(__classid(TfrmNomeDiretorio), &frmNomeDiretorio);
 		Application->Run();
 	}
 	catch (Exception &exception)

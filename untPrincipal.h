@@ -39,31 +39,30 @@ __published:	// IDE-managed Components
 	TButton *Button1;
 	TPopupMenu *PopupMenuGrid;
 	TMenuItem *Criar1;
-	TButton *Button2;
 	TMenuItem *Alterar1;
 	TMenuItem *Deletar1;
 	TPopupMenu *PopupTreeView;
 	TMenuItem *Criardiretorio1;
 	TMenuItem *Criararquivo1;
-	TButton *Button3;
-	TButton *Button4;
+	TButton *Button2;
 	void __fastcall Timer1Timer(TObject *Sender);
 	void __fastcall Autores1Click(TObject *Sender);
-	void __fastcall Button2Click(TObject *Sender);
 	void __fastcall TreeView2MouseLeave(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall criarTree();
 	void __fastcall exibirNode(TTreeNode *node, int count);
 	void __fastcall limparChar(char *p, int tam);
+	void __fastcall GerarNodesTreeView();
+	void __fastcall ExibirNodesTreeView();
+	void __fastcall GerarPathNodesTreeView(UnicodeString nomeDiretorio);
 	void __fastcall FormCreate(TObject *Sender);
 	void __fastcall StringGrid1MouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
 		  int X, int Y);
-	void __fastcall mnuFileNewClick(TObject *Sender);
 	void __fastcall Criar1Click(TObject *Sender);
 	void __fastcall TreeView1MouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
           int X, int Y);
-	void __fastcall Button3Click(TObject *Sender);
-	void __fastcall Button4Click(TObject *Sender);
+	void __fastcall Criardiretorio1Click(TObject *Sender);
+	void __fastcall Button2Click(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);
