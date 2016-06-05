@@ -11,6 +11,7 @@
 #include <Menus.hpp>
 #include <Grids.hpp>
 #include <ExtCtrls.hpp>
+#include <Vcl.Dialogs.hpp>
 //---------------------------------------------------------------------------
 class TForm1 : public TForm
 {
@@ -18,7 +19,7 @@ __published:	// IDE-managed Components
 	TGroupBox *GroupBox1;
 	TStatusBar *StatusBar1;
 	TGroupBox *GroupBox3;
-	TEdit *Edit1;
+    TEdit *edtPathname;
 	TTreeView *TreeView1;
 	TMainMenu *MainMenu1;
 	TMenuItem *Arquivo1;
@@ -34,8 +35,35 @@ __published:	// IDE-managed Components
 	TMenuItem *Sobre1;
 	TMenuItem *Autores1;
 	TMenuItem *Verso1;
+	TOpenDialog *OpenDialog1;
+	TButton *Button1;
+	TPopupMenu *PopupMenuGrid;
+	TMenuItem *Criar1;
+	TButton *Button2;
+	TMenuItem *Alterar1;
+	TMenuItem *Deletar1;
+	TPopupMenu *PopupTreeView;
+	TMenuItem *Criardiretorio1;
+	TMenuItem *Criararquivo1;
+	TButton *Button3;
+	TButton *Button4;
 	void __fastcall Timer1Timer(TObject *Sender);
 	void __fastcall Autores1Click(TObject *Sender);
+	void __fastcall Button2Click(TObject *Sender);
+	void __fastcall TreeView2MouseLeave(TObject *Sender);
+	void __fastcall Button1Click(TObject *Sender);
+	void __fastcall criarTree();
+	void __fastcall exibirNode(TTreeNode *node, int count);
+	void __fastcall limparChar(char *p, int tam);
+	void __fastcall FormCreate(TObject *Sender);
+	void __fastcall StringGrid1MouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+		  int X, int Y);
+	void __fastcall mnuFileNewClick(TObject *Sender);
+	void __fastcall Criar1Click(TObject *Sender);
+	void __fastcall TreeView1MouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+          int X, int Y);
+	void __fastcall Button3Click(TObject *Sender);
+	void __fastcall Button4Click(TObject *Sender);
 private:	// User declarations
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);

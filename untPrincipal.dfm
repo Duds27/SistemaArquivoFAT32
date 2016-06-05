@@ -3,8 +3,8 @@ object Form1: TForm1
   Top = 0
   AutoSize = True
   Caption = 'Gerenciador de Arquivos Facens - V1.0'
-  ClientHeight = 574
-  ClientWidth = 826
+  ClientHeight = 763
+  ClientWidth = 1306
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,15 +15,16 @@ object Form1: TForm1
   Menu = MainMenu1
   OldCreateOrder = False
   Position = poDesktopCenter
+  OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object GroupBox1: TGroupBox
-    Left = 189
-    Top = 447
-    Width = 636
-    Height = 105
+    Left = 290
+    Top = 615
+    Width = 1016
+    Height = 126
     Caption = 'Propriedades do Arquivo'
-    Color = clSkyBlue
+    Color = clGradientActiveCaption
     ParentBackground = False
     ParentColor = False
     TabOrder = 0
@@ -82,8 +83,8 @@ object Form1: TForm1
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 555
-    Width = 826
+    Top = 744
+    Width = 1306
     Height = 19
     Color = clDefault
     Panels = <
@@ -102,41 +103,81 @@ object Form1: TForm1
       end>
   end
   object GroupBox3: TGroupBox
-    Left = 189
-    Top = 0
-    Width = 636
-    Height = 35
+    Left = 290
+    Top = 1
+    Width = 1016
+    Height = 41
     Color = clSkyBlue
     ParentBackground = False
     ParentColor = False
     TabOrder = 2
-    object Edit1: TEdit
+    object edtPathname: TEdit
       Left = 5
       Top = 7
-      Width = 622
+      Width = 1003
       Height = 21
       TabOrder = 0
     end
   end
   object TreeView1: TTreeView
     Left = 3
-    Top = 1
-    Width = 182
-    Height = 551
+    Top = 0
+    Width = 286
+    Height = 741
+    Color = clWhite
     Indent = 19
     TabOrder = 3
+    OnMouseDown = TreeView1MouseDown
   end
   object StringGrid1: TStringGrid
-    Left = 189
-    Top = 40
-    Width = 634
-    Height = 401
+    Left = 290
+    Top = 43
+    Width = 1016
+    Height = 570
     ColCount = 2
     DefaultColWidth = 100
     FixedColor = clGradientActiveCaption
     FixedCols = 0
+    FixedRows = 0
     GridLineWidth = 0
     TabOrder = 4
+    OnMouseDown = StringGrid1MouseDown
+  end
+  object Button1: TButton
+    Left = 600
+    Top = 384
+    Width = 75
+    Height = 25
+    Caption = 'Button1'
+    TabOrder = 5
+    OnClick = Button1Click
+  end
+  object Button2: TButton
+    Left = 432
+    Top = 344
+    Width = 75
+    Height = 25
+    Caption = 'Button2'
+    TabOrder = 6
+    OnClick = Button2Click
+  end
+  object Button3: TButton
+    Left = 360
+    Top = 192
+    Width = 75
+    Height = 25
+    Caption = 'SET'
+    TabOrder = 7
+    OnClick = Button3Click
+  end
+  object Button4: TButton
+    Left = 552
+    Top = 160
+    Width = 75
+    Height = 25
+    Caption = 'MAP_PATH'
+    TabOrder = 8
+    OnClick = Button4Click
   end
   object MainMenu1: TMainMenu
     Left = 24
@@ -165,8 +206,38 @@ object Form1: TForm1
     end
   end
   object Timer1: TTimer
+    Enabled = False
     OnTimer = Timer1Timer
-    Left = 784
+    Left = 1152
+    Top = 328
+  end
+  object OpenDialog1: TOpenDialog
+    Left = 344
+    Top = 504
+  end
+  object PopupMenuGrid: TPopupMenu
+    MenuAnimation = [maRightToLeft]
+    Left = 112
     Top = 8
+    object Criar1: TMenuItem
+      Caption = 'Criar'
+      OnClick = Criar1Click
+    end
+    object Alterar1: TMenuItem
+      Caption = 'Alterar'
+    end
+    object Deletar1: TMenuItem
+      Caption = 'Deletar'
+    end
+  end
+  object PopupTreeView: TPopupMenu
+    Left = 112
+    Top = 72
+    object Criardiretorio1: TMenuItem
+      Caption = 'Criar diret'#243'rio'
+    end
+    object Criararquivo1: TMenuItem
+      Caption = 'Criar arquivo'
+    end
   end
 end

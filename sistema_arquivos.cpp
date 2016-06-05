@@ -4,8 +4,8 @@
 #pragma hdrstop
 #include <tchar.h>
 //---------------------------------------------------------------------------
-USEFORM("untPrincipal.cpp", Form1);
 USEFORM("untAutores.cpp", frmAutores);
+USEFORM("untPrincipal.cpp", Form1);
 //---------------------------------------------------------------------------
 WINAPI _tWinMain(HINSTANCE, HINSTANCE, LPTSTR, int)
 {
