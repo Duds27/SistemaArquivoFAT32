@@ -57,7 +57,7 @@ void __fastcall TfrmNomeDiretorio::Button1Click(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TfrmNomeDiretorio::FormCreate(TObject *Sender)
 {
-	Edit1->Text = "";
+	Edit1->Clear();
 }
 //---------------------------------------------------------------------------
 

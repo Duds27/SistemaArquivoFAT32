@@ -9,6 +9,7 @@
 #include <map>
 #include <stdio.h>
 #include <iostream>
+#include <IOUtils.hpp>
 #pragma hdrstop
 
 #include "untPrincipal.h"
@@ -24,7 +25,7 @@ using namespace std;
 
 //variáveis globais
 map<int, UnicodeString> MAP_QTD_NIVEL;
-map<int, TTreeNode*> MAP_NODE;
+map<TTreeNode*, int> MAP_NODE;
 map<int, UnicodeString> MAP_FILE;
 
 #define ROOT "root\\"
@@ -305,7 +306,7 @@ void __fastcall TForm1::Criardiretorio1Click(TObject *Sender)
 	char nomeArquivo[PATH_MAX];
 
 	ShowMessage("Estou criando diretório...");
-	ShowMessage("Absolute Index = " + IntToStr(TreeView1->Selected->AbsoluteIndex));
+	//ShowMessage("Absolute Index = " + IntToStr(TreeView1->Selected->AbsoluteIndex));
 
 	frmNomeDiretorio->ShowModal();
 
@@ -333,7 +334,7 @@ void __fastcall TForm1::GerarNodesTreeView()
 {
 	for (int i = 0; i < TreeView1->Items->Count; i++) {
 		if (TreeView1->Items->Item[i]->HasChildren) {
-			MAP_NODE.insert (pair<int,TTreeNode*>(i, TreeView1->Items->Item[i]));
+			MAP_NODE.insert (pair<TTreeNode*,int>(TreeView1->Items->Item[i],i));
 		}
 	}
 }
@@ -342,11 +343,11 @@ void __fastcall TForm1::GerarNodesTreeView()
 void __fastcall TForm1::ExibirNodesTreeView()
 {
 	UnicodeString key, value;
-	map<int, TTreeNode*>::iterator it;
+	map<TTreeNode*,int>::iterator it;
 	for (it = MAP_NODE.begin(); it != MAP_NODE.end(); ++it) {
-		int k = it->first;
+		int k = it->second;
 		key = IntToStr(k);
-		value = it->second->Text;
+		value = it->first->Text;
 		ShowMessage ("Key = " + key + "\nValue = " + value);
 	}
 }
@@ -355,15 +356,30 @@ void __fastcall TForm1::ExibirNodesTreeView()
 void __fastcall TForm1::GerarPathNodesTreeView(UnicodeString nomeDiretorio)
 {
 	stack<UnicodeString> path;
+
 	TTreeNode *aux = TreeView1->Selected;
+	UnicodeString nodeSelecionado = aux->Text;
+
+	map<TTreeNode*,int>::iterator it = MAP_NODE.find(aux);
+
 	UnicodeString name = "";
+
+	//diretório criado
 	path.push(nomeDiretorio);
 	path.push(aux->Text + "\\");
 
-	aux = aux->GetPrev();
+	path.push(it->first->Text + "\\");
+
+	aux = it->first->getFirstChild();
+	ShowMessage("Irmão: " + aux->Text);
+
 	while (aux->HasChildren) {
 		path.push(aux->Text + "\\");
+		aux = aux->getFirstChild();
 		aux = aux->GetPrev();
+		if (aux == NULL) {
+			break;
+		}
 	}
 	path.push(ROOT);
 
@@ -373,6 +389,7 @@ void __fastcall TForm1::GerarPathNodesTreeView(UnicodeString nomeDiretorio)
 		path.pop();
 	}
 
+	TDirectory::CreateDirectoryA(name);
 
 	ShowMessage("Path Completooo = " + name);
 }
