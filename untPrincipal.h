@@ -49,20 +49,23 @@ __published:	// IDE-managed Components
 	void __fastcall Autores1Click(TObject *Sender);
 	void __fastcall TreeView2MouseLeave(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
+	void __fastcall FormCreate(TObject *Sender);
+	void __fastcall StringGrid1MouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+		  int X, int Y);
+	void __fastcall Criar1Click(TObject *Sender);
+	void __fastcall TreeView1MouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
+		  int X, int Y);
+	void __fastcall Button2Click(TObject *Sender);
+
+	void __fastcall Criardiretorio1Click(TObject *Sender);
 	void __fastcall criarTree();
 	void __fastcall exibirNode(TTreeNode *node, int count);
 	void __fastcall limparChar(char *p, int tam);
 	void __fastcall GerarNodesTreeView();
 	void __fastcall ExibirNodesTreeView();
 	void __fastcall GerarPathNodesTreeView(UnicodeString nomeDiretorio);
-	void __fastcall FormCreate(TObject *Sender);
-	void __fastcall StringGrid1MouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
-		  int X, int Y);
-	void __fastcall Criar1Click(TObject *Sender);
-	void __fastcall TreeView1MouseDown(TObject *Sender, TMouseButton Button, TShiftState Shift,
-          int X, int Y);
-	void __fastcall Criardiretorio1Click(TObject *Sender);
-	void __fastcall Button2Click(TObject *Sender);
+	void __fastcall GravarPathNoArquivo(UnicodeString path);
+
 private:	// User declarations
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);

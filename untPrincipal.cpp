@@ -263,11 +263,13 @@ void __fastcall TForm1::FormCreate(TObject *Sender)
 
 						dir = strtok (NULL, "\\\n");
 					} while (dir != NULL);
+                    TreeView1->Items->AddChild(TreeView1->Items->Item[cont], pathCompleto);
 				}
 
 
 			}
 		 }
+		 fclose ( fDirs);
 	}
 
 }
@@ -308,7 +310,8 @@ void __fastcall TForm1::Criardiretorio1Click(TObject *Sender)
 	ShowMessage("Estou criando diretório...");
 	//ShowMessage("Absolute Index = " + IntToStr(TreeView1->Selected->AbsoluteIndex));
 
-	frmNomeDiretorio->ShowModal();
+	int x = frmNomeDiretorio->ShowModal();
+
 
 	tmp = fopen ("nomeTemp.txt", "r");
 
@@ -317,12 +320,14 @@ void __fastcall TForm1::Criardiretorio1Click(TObject *Sender)
 		if ( fgets (nomeArquivo, PATH_MAX , tmp) != NULL) {
 			int index = TreeView1->Selected->AbsoluteIndex;
 			TreeView1->Items->AddChild(TreeView1->Items->Item[index], nomeArquivo);
+			fclose (tmp);
 			GerarNodesTreeView();
 			GerarPathNodesTreeView(nomeArquivo);
 		}
 	}
 
-	fclose (tmp);
+	if (tmp != NULL)
+		fclose (tmp);
 
 	if( remove( "nomeTemp.txt" ) != 0 )
 		ShowMessage("Erro ao deletar arquivo temporário.");
@@ -366,34 +371,59 @@ void __fastcall TForm1::GerarPathNodesTreeView(UnicodeString nomeDiretorio)
 
 	//diretório criado
 	path.push(nomeDiretorio);
-	path.push(aux->Text + "\\");
-
 	path.push(it->first->Text + "\\");
 
-	aux = it->first->getFirstChild();
-	ShowMessage("Irmão: " + aux->Text);
+	aux = it->first->Parent;
+	if (aux != NULL) {
+		ShowMessage("Pai: " + aux->Text);
 
-	while (aux->HasChildren) {
-		path.push(aux->Text + "\\");
-		aux = aux->getFirstChild();
-		aux = aux->GetPrev();
-		if (aux == NULL) {
-			break;
+		while (aux->HasChildren) {
+			path.push(aux->Text + "\\");
+			aux = aux->Parent;
+			if (aux == NULL) {
+				break;
+			}
 		}
+		//path.push(ROOT);
+
+		name = "";
+		while (!path.empty()) {
+			name += path.top();
+			path.pop();
+		}
+
+		TDirectory::CreateDirectoryA(name);
+
+		name += "\n";
+		GravarPathNoArquivo(name);
+		ShowMessage("Path Completooo = " + name);
 	}
-	path.push(ROOT);
-
-	name = "";
-	while (!path.empty()) {
-		name += path.top();
-		path.pop();
+	else {
+		name += ROOT + nomeDiretorio + "\n";
+		GravarPathNoArquivo(name);
+		ShowMessage("Path Completooo = " + name);
 	}
 
-	TDirectory::CreateDirectoryA(name);
-
-	ShowMessage("Path Completooo = " + name);
 }
 //---------------------------------------------------------------------------
+
+void __fastcall TForm1::GravarPathNoArquivo(UnicodeString path)
+{
+	FILE *file;
+	char read[PATH_MAX];
+	limparChar(read, PATH_MAX);
+
+	file = fopen ("diretorios.txt", "a+");
+
+	if (file != NULL) {
+		AnsiString ansiB(path);
+		char* str = new char[ansiB.Length()+1];
+		strcpy(str, ansiB.c_str());
+		fputs (str, file);
+		delete[] str;
+	}
+	fclose (file);
+}
 
 void __fastcall TForm1::Button2Click(TObject *Sender)
 {
